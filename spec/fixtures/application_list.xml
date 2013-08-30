@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ns2:snapshot xmlns:ns2="http://www.voxeo.com/management/1.0/monitoring" sampletime="1377889120995813" installid="bfda6ab3c7316d95d4f90237dd900a48">
+
+  <system>
+    <version>
+      <vcs>11.5.57126.0</vcs>
+      <prophecy>11.5.57175.0</prophecy>
+    </version>
+    <starttime>1376679402514557</starttime>
+    <uptime>1209718481</uptime>
+  </system>
+
+  <stats>
+    <sessionsetups>11078</sessionsetups>
+    <counters>
+      <session>
+        <responsetime>12651</responsetime>
+        <responsecount>114550</responsecount>
+      </session>
+
+      <init>
+        <inittime>305036</inittime>
+        <fetchtime>65126</fetchtime>
+      </init>
+    </counters>
+
+    <connectionsetups>11064</connectionsetups>
+    <activesessions>0</activesessions>
+    <activeconnections>0</activeconnections>
+  </stats>
+
+  <application id="804b6b431f2d4cb2a0b3efac0fca266d">
+    <stats>
+      <sessionsetups>3</sessionsetups>
+      <counters>
+        <session>
+          <uptime>0</uptime>
+          <responsetime>0</responsetime>
+          <responsecount>12</responsecount>
+        </session>
+
+        <init>
+          <inittime>59</inittime>
+          <fetchtime>9</fetchtime>
+        </init>
+      </counters>
+
+      <connectionsetups>3</connectionsetups>
+      <activesessions>0</activesessions>
+      <activeconnections>0</activeconnections>
+    </stats>
+
+    <internal>true</internal>
+    <browsertype>CCXML</browsertype>
+    <accountid>1</accountid>
+  </application>
+
+  <application id="2c9285d33f268dbc013f1f121ab00049">
+    <stats>
+      <sessionsetups>5</sessionsetups>
+      <counters>
+        <session>
+          <uptime>390</uptime>
+          <responsetime>11</responsetime>
+          <responsecount>59</responsecount>
+        </session>
+
+        <init>
+          <inittime>347</inittime>
+          <fetchtime>133</fetchtime>
+        </init>
+      </counters>
+
+      <connectionsetups>5</connectionsetups>
+      <activesessions>12</activesessions>
+      <activeconnections>0</activeconnections>
+    </stats>
+
+    <browsertype>CallXML</browsertype>
+    <accountid>1</accountid>
+  </application>
+
+</ns2:snapshot>
