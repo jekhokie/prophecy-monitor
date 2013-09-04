@@ -10,6 +10,10 @@ module Prophecy
           "/stats_10"
         end
 
+        def application_ids_sessions_path
+          "/stats_10?type=snapshot&full=false"
+        end
+
         ###########################
         # Processing Methods
         ###########################
