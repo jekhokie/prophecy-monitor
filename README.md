@@ -44,7 +44,22 @@ Copy and update the settings file to reflect the configuration for your environm
 
 ## Usage
 
-TODO
+    # create a new monitor API instance for Voxeo Prophecy version 11
+    monitor = Prophecy::Monitor.new :host    => '192.168.1.56',
+                                    :port    => 9999,
+                                    :options => { :api_version => '11' }
+
+    # check whether the created monitor instance can connect to the Prophecy instance
+    monitor.can_connect?   # true
+
+    # retrieve a listing of browser type and corresponding active sessions
+    monitor.total_sessions  # { "CallXML" => 0, "CCXML10" => 12 }
+
+    # retrieve a listing of all application IDs and corresponding active sessions
+    monitor.sessions_by_application_id  # { "2c9285d737762eb901377ad11daf00d7" => 0, "92928537z7362e110a3h7ah11cafn0d0" => 12 }
+
+    # retrieve the total active sessions for a particular application ID
+    monitor.sessions_for("92928537z7362e110a3h7ah11cafn0d0")   # 12
 
 ## Contributing
 
