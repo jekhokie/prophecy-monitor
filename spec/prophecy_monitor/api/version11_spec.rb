@@ -34,6 +34,16 @@ describe Prophecy::Monitor::Api::Version11 do
       end
     end
 
+    describe "total_sessions_mapping" do
+      let(:api)            { FactoryGirl.build :api, :version => "11" }
+      let(:total_sessions) { File.open(File.dirname(__FILE__) + "/../../fixtures/total_sessions", "r").read }
+
+      it "returns a hash of session_type to total_active_sessions" do
+        api.total_sessions_mapping(total_sessions).should == { "CallXML" => 0,
+                                                               "CCXML10" => 9 }
+      end
+    end
+
     describe "application_ids_sessions" do
       let(:api)              { FactoryGirl.build :api, :version => "11" }
       let(:all_applications) { File.open(File.dirname(__FILE__) + "/../../fixtures/application_list.xml", "r").read }

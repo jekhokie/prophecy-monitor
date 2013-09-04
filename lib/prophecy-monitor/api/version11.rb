@@ -26,6 +26,15 @@ module Prophecy
           response_code == "200"
         end
 
+        def total_sessions_mapping(response)
+          total_sessions_list = Hash.new
+
+          total_sessions_list["CallXML"] = response.scan(/CallXML.*/).first.split(':').last.strip.to_i
+          total_sessions_list["CCXML10"] = response.scan(/CCXML10.*/).first.split(':').last.strip.to_i
+
+          total_sessions_list
+        end
+
         def application_ids_sessions(response)
           applications_sessions_list = Hash.new
           doc                        = Nokogiri::XML response
