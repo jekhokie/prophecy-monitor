@@ -27,5 +27,15 @@ describe Prophecy::Monitor::Api::Version11 do
         api.connect_response_valid?("abc").should == false
       end
     end
+
+    describe "application_ids_sessions" do
+      let(:api)              { FactoryGirl.build :api, :version => "11" }
+      let(:all_applications) { File.open(File.dirname(__FILE__) + "/../../fixtures/application_list.xml", "r").read }
+
+      it "returns a hash of application IDs and associated active sessions" do
+        api.application_ids_sessions(all_applications).should == { "804b6b431f2d4cb2a0b3efac0fca266d" => 0,
+                                                                   "2c9285d33f268dbc013f1f121ab00049" => 12 }
+      end
+    end
   end
 end
