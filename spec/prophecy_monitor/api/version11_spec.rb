@@ -8,8 +8,14 @@ describe Prophecy::Monitor::Api::Version11 do
       end
     end
 
+    describe "total_sessions_path" do
+      it "returns the total_sessions_path for Prophecy Monitor" do
+        FactoryGirl.build(:api, :version => "11").total_sessions_path.should be_instance_of(String)
+      end
+    end
+
     describe "application_ids_sessions_path" do
-      it "returns the connect_path for Prophecy Monitor" do
+      it "returns the application_ids_sessions_path for Prophecy Monitor" do
         FactoryGirl.build(:api, :version => "11").connect_path.should be_instance_of(String)
       end
     end
