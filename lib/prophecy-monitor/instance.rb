@@ -94,17 +94,12 @@ module Prophecy
         end
       end
 
-      def sessions_for(host)
-        host_service_hash = self.monitored_hosts_services
+      def sessions_for(application_id)
+        application_id_sessions = self.sessions_by_application_id
 
-        raise "No Hosts Being Monitored"    if host_service_hash.empty?
-        raise "Non-Monitored Host: #{host}" if (host_hash = host_service_hash[host]).empty?
+        raise "No Applications Within Prophecy" if application_id_sessions.empty?
 
-        host_hash.uniq
-      end
-
-      def has_monitored_service?(host, service)
-        self.monitored_services_for(host).any?{ |host_service| host_service.casecmp(service) == 0 }
+        application_id_sessions[application_id]
       end
     end
   end

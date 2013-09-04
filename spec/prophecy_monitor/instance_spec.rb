@@ -81,6 +81,10 @@ describe Prophecy::Monitor::Instance do
     let(:host)       { "my.host" }
     let(:prism_port) { "9999"    }
 
+    before :each do
+      FakeWeb.clean_registry
+    end
+
     describe "for a non-reachable server" do
       let(:monitor_instance) { FactoryGirl.build :instance }
 
@@ -109,19 +113,25 @@ describe Prophecy::Monitor::Instance do
     let(:prism_port)       { "9999" }
     let(:monitor_instance) { FactoryGirl.build :instance }
 
+    before :each do
+      FakeWeb.clean_registry
+    end
+
     describe "for a non-reachable server" do
       it "raises an exception" do
         expect{ monitor_instance.total_sessions }.to raise_error
       end
     end
 
-    describe "for an instance with servers being monitored" do
+    describe "for an instance with applications" do
       before :each do
+        FakeWeb.clean_registry
+
         # required for can_connect?
         FakeWeb.register_uri(:get, "http://#{host}:#{prism_port}/stats_10",
                                    :body => File.open(File.dirname(__FILE__) + "/../fixtures/application_list.xml", "r").read,
                                    :status => [ "200", "OK" ])
-        FakeWeb.register_uri(:get, "http://#{host}:#{prism_port}/stats_10?type=snapshot&full=false",
+        FakeWeb.register_uri(:get, "http://#{host}:#{prism_port}/sessions_10",
                                    :body => File.open(File.dirname(__FILE__) + "/../fixtures/total_sessions", "r").read,
                                    :status => [ "200", "OK" ])
       end
@@ -136,6 +146,10 @@ describe Prophecy::Monitor::Instance do
     let(:host)             { "my.host" }
     let(:prism_port)       { "9999" }
     let(:monitor_instance) { FactoryGirl.build :instance }
+
+    before :each do
+      FakeWeb.clean_registry
+    end
 
     describe "for a non-reachable server" do
       it "raises an exception" do
@@ -156,6 +170,38 @@ describe Prophecy::Monitor::Instance do
 
       it "returns a hash of application ID and associated current sessions" do
         monitor_instance.sessions_by_application_id.should == { "804b6b431f2d4cb2a0b3efac0fca266d" => 0, "2c9285d33f268dbc013f1f121ab00049" => 12 }
+      end
+    end
+  end
+
+  describe "sessions_for(application_id)" do
+    let(:host)             { "my.host" }
+    let(:prism_port)       { "9999" }
+    let(:monitor_instance) { FactoryGirl.build :instance }
+
+    before :each do
+      FakeWeb.clean_registry
+    end
+
+    describe "for a non-reachable server" do
+      it "raises an exception" do
+        expect{ monitor_instance.sessions_for("804b6b431f2d4cb2a0b3efac0fca266d") }.to raise_error
+      end
+    end
+
+    describe "for an instance with applications" do
+      before :each do
+        # required for can_connect?
+        FakeWeb.register_uri(:get, "http://#{host}:#{prism_port}/stats_10",
+                                   :body => File.open(File.dirname(__FILE__) + "/../fixtures/application_list.xml", "r").read,
+                                   :status => [ "200", "OK" ])
+        FakeWeb.register_uri(:get, "http://#{host}:#{prism_port}/stats_10?type=snapshot&full=false",
+                                   :body => File.open(File.dirname(__FILE__) + "/../fixtures/application_list.xml", "r").read,
+                                   :status => [ "200", "OK" ])
+      end
+
+      it "returns the number of active sessions for the specified ID" do
+        monitor_instance.sessions_for("2c9285d33f268dbc013f1f121ab00049").should == 12
       end
     end
   end
