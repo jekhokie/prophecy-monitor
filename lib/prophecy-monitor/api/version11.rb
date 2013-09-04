@@ -11,7 +11,7 @@ module Prophecy
         end
 
         def total_sessions_path
-          "/stats_10"
+          "/sessions_10"
         end
 
         def application_ids_sessions_path
