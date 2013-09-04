@@ -89,7 +89,7 @@ describe Prophecy::Monitor::Instance do
       end
     end
 
-    describe "for valid connection credentials" do
+    describe "for a reachable server" do
       let(:monitor_instance) { FactoryGirl.build :instance, :host => host, :prism_port => prism_port }
 
       before :each do
@@ -100,6 +100,34 @@ describe Prophecy::Monitor::Instance do
 
       it "returns true" do
         monitor_instance.can_connect?.should be_true
+      end
+    end
+  end
+
+  describe "total_sessions" do
+    let(:host)             { "my.host" }
+    let(:prism_port)       { "9999" }
+    let(:monitor_instance) { FactoryGirl.build :instance }
+
+    describe "for a non-reachable server" do
+      it "raises an exception" do
+        expect{ monitor_instance.total_sessions }.to raise_error
+      end
+    end
+
+    describe "for an instance with servers being monitored" do
+      before :each do
+        # required for can_connect?
+        FakeWeb.register_uri(:get, "http://#{host}:#{prism_port}/stats_10",
+                                   :body => File.open(File.dirname(__FILE__) + "/../fixtures/application_list.xml", "r").read,
+                                   :status => [ "200", "OK" ])
+        FakeWeb.register_uri(:get, "http://#{host}:#{prism_port}/stats_10?type=snapshot&full=false",
+                                   :body => File.open(File.dirname(__FILE__) + "/../fixtures/total_sessions", "r").read,
+                                   :status => [ "200", "OK" ])
+      end
+
+      it "returns a hash of total calls per type" do
+        monitor_instance.total_sessions.should == { "CallXML" => 0, "CCXML10" => 9 }
       end
     end
   end

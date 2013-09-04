@@ -65,6 +65,20 @@ module Prophecy
 
         return valid_response
       end
+
+      def total_sessions
+        begin
+          can_connect?
+
+          response = Net::HTTP.start(self.host, self.prism_port) do |http|
+            http.get(@api.total_sessions_path)
+          end
+
+          @api.total_sessions_mapping(response.body)
+        rescue Exception => e
+          raise e.message
+        end
+      end
     end
   end
 end
