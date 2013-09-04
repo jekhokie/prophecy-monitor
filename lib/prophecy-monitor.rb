@@ -2,6 +2,8 @@ require_relative "prophecy-monitor/version"
 require_relative "prophecy-monitor/instance"
 require_relative "prophecy-monitor/api"
 
+require 'nokogiri'
+
 module Prophecy
   module Monitor
     class << self
