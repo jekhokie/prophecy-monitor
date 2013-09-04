@@ -79,6 +79,33 @@ module Prophecy
           raise e.message
         end
       end
+
+      def sessions_by_application_id
+        begin
+          can_connect?
+
+          response = Net::HTTP.start(self.host, self.prism_port) do |http|
+            http.get(@api.application_ids_sessions_path)
+          end
+
+          @api.application_ids_sessions(response.body)
+        rescue Exception => e
+          raise e.message
+        end
+      end
+
+      def sessions_for(host)
+        host_service_hash = self.monitored_hosts_services
+
+        raise "No Hosts Being Monitored"    if host_service_hash.empty?
+        raise "Non-Monitored Host: #{host}" if (host_hash = host_service_hash[host]).empty?
+
+        host_hash.uniq
+      end
+
+      def has_monitored_service?(host, service)
+        self.monitored_services_for(host).any?{ |host_service| host_service.casecmp(service) == 0 }
+      end
     end
   end
 end
