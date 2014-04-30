@@ -25,7 +25,7 @@ Reference the Voxeo Prophecy installation instructions for your particular Proph
 
 Add this line to your application's Gemfile:
 
-    gem 'tomcat-manager'
+    gem 'prophecy-monitor'
 
 And then execute:
 
@@ -33,7 +33,7 @@ And then execute:
 
 Or install it yourself as:
 
-    $ gem install tomcat-manager
+    $ gem install prophecy-monitor
 
 ### Configuration:
 
